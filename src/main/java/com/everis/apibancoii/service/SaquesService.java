@@ -16,15 +16,9 @@ public class SaquesService {
     private ContaRepository repository;
 
     public String AlterarSaques(String numero){
-        Optional<ContaModel> conta = repository.findByNumero(numero);
-        if (conta.isPresent()) {
-            conta.map(map -> {
-                map.setSaques(map.getSaques() + 1);
-                ContaModel c1 = repository.save(map);
-                return ResponseEntity.ok().body(c1);
-            });
-            return "Operação Realizada. " + ResponseEntity.ok().build();
+        ContaModel conta = repository.findByNumero(numero).orElseThrow(() -> new RuntimeException());
+        conta.setSaques(conta.getSaques() + 1);
+        repository.save(conta);
+        return "Operação Realizada. " + ResponseEntity.ok().build();
         }
-        return "Não foi possóvel realizar a operação. " + ResponseEntity.badRequest().build();
-    }
 }

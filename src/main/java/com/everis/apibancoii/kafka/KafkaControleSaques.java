@@ -1,10 +1,13 @@
 package com.everis.apibancoii.kafka;
 
 import com.everis.apibancoii.controller.SaquesController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
+
+@Slf4j
 @Service
 public class KafkaControleSaques {
     @Autowired
@@ -14,7 +17,7 @@ public class KafkaControleSaques {
     @SendTo
     public String listen(String numero){
         String mensagem = quantsaques.AlterarSaques(numero);
-        System.out.println("Sacado com sucesso.");
+        log.info("Sacado com sucesso.");
         return "Operação realizada. " + mensagem ;
     }
 }
